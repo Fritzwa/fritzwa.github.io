@@ -7,7 +7,7 @@ function refreshWindow() {
   for (const lane of document.querySelectorAll(".lane")) {
     let count = 0;
     const notes = [];
-    for (const paper of lane.querySelectorAll(".paper")) {
+    for (const paper of lane.querySelectorAll(".paper[data-published]")) {
       const published = Date.parse(paper.dataset.published);
       const expires = published + windowMs;
       paper.hidden = !(published <= now && now < expires);
@@ -18,10 +18,13 @@ function refreshWindow() {
       }
     }
     lane.querySelector(".empty-lane").hidden = count > 0;
+    const classic = lane.querySelector("[data-classic]");
+    if (classic) classic.hidden = lane.dataset.topic === "editing" && count > 0;
     const digest = document.querySelector('[data-brief-topic="' + lane.dataset.topic + '"]');
     if (digest) {
       const fallback = count ? "中文速读待补充，可先阅读下方英文摘要。" : "过去 24 小时暂无已核实的新进展。";
-      const text = notes.join(" ") || fallback;
+      let text = notes.join(" ") || fallback;
+      if (classic && !classic.hidden) text += " 经典选读：" + classic.dataset.briefZh;
       if (digest.textContent !== text) digest.textContent = text;
     }
   }
