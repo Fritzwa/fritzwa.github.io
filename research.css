@@ -55,3 +55,12 @@ details summary { color: var(--lane-accent); padding: 1rem 0; font-size: .95rem;
 .zh-brief p { max-width: 52em; font-size: 1.125rem; line-height: 1.85; }
 .zh-brief p + p { margin-top: .55rem; }
 .zh-brief strong { color: #f1d798; font-weight: 600; }
+.earlier { margin-top: 1.15rem; }
+.earlier > h3 { font-size: .95rem; font-weight: 550; color: var(--lane-accent); margin: 0 0 .75rem; }
+.reading-history { margin-top: clamp(2rem, 4vw, 3.5rem); }
+.reading-history > h2 { color: var(--white-2); font: 500 1.75rem/1.25 Georgia, serif; margin: 0 0 .9rem; }
+.history-empty { color: #b9b8b6; font-size: 1rem; line-height: 1.55; }
+.past-edition { border-block-start: 1px solid var(--jet); }
+.past-edition > summary { color: var(--light-gray); font-size: 1rem; padding: 1rem .25rem; cursor: pointer; }
+.past-edition > summary:hover, .past-edition > summary:focus-visible { color: var(--orange-yellow-crayola); }
+.past-edition[open] { padding-bottom: 1.5rem; }
