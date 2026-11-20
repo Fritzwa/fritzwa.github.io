@@ -34,3 +34,9 @@
 .clip a, .gallery-footer a { color: #dfcd98; text-underline-offset: .2em; }
 .clip .fallback { margin-top: .6rem; }
 .gallery-footer { padding: 1.5rem 0; }
+
+.clip { border: 1px solid #383f39; background: #1b1e1d; }
+.clip .fallback, .clip .owner-title { display: inline-block; margin: .55rem 1.25rem 0 0; font-size: .93rem; }
+.gallery-footer summary { color: #dfcd98; cursor: pointer; width: fit-content; }
+.gallery-footer details p { margin: .8rem 0; max-width: 52ch; line-height: 1.5; }
+.gallery-footer details span { display: block; margin-top: .45rem; font-size: .93rem; color: #afb7b0; }
