@@ -15,6 +15,7 @@ function paperCard(entry) {
   if (url.protocol !== "https:") throw new Error("Invalid source URL.");
   const article = element("article", undefined, "paper");
   article.dataset.published = entry.published_at;
+  article.dataset.briefZh = entry.brief_zh || "";
   const metadata = element("p", undefined, "paper-info");
   metadata.append(timeLabel(entry.published_at), element("span", kinds[entry.kind] + " · " + entry.source));
   const heading = element("h3");
