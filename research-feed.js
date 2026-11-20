@@ -1,4 +1,4 @@
-import {element, fetchFeed, keepUpdated} from "./feed.js";
+import {element, keepUpdated} from "./feed.js";
 
 const kinds = {preprint: "Preprint", paper: "Paper", blog: "Research blog"};
 const dateFormat = new Intl.DateTimeFormat("en-GB", {
@@ -39,11 +39,14 @@ function paperCard(entry) {
   return article;
 }
 
-let lastReview;
+let lastReview = JSON.parse(document.getElementById("board-data").textContent).checked;
 const status = document.querySelector("#feed-status");
 keepUpdated(async () => {
   try {
-    const board = await fetchFeed("/api/research");
+    const response = await fetch("./research.html", {cache: "no-cache", signal: AbortSignal.timeout(15000)});
+    if (!response.ok) throw new Error("Could not refresh the board.");
+    const snapshot = new DOMParser().parseFromString(await response.text(), "text/html");
+    const board = JSON.parse(snapshot.getElementById("board-data").textContent);
     if (board.checked !== lastReview) {
       const reviewed = timeLabel(board.checked);
       const cards = board.entries.map(entry => ({topic: entry.topic, node: paperCard(entry)}));
