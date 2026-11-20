@@ -21,13 +21,37 @@ async function refreshTitle(card) {
 }
 
 function videoPath(card) {
-  return card.querySelector("video").getAttribute("src");
+  return card.querySelector(".fallback").getAttribute("href");
+}
+
+function enablePlayback(card) {
+  const url = card.dataset.compatible;
+  if (!url) return;
+  const player = card.querySelector("video");
+  async function loadCompatible() {
+    if (player.dataset.compatible === "loading" || player.dataset.compatible === "ready") return;
+    player.dataset.compatible = "loading";
+    try {
+      const response = await fetch(url, {signal: AbortSignal.timeout(30000)});
+      if (!response.ok) throw new Error("Video unavailable");
+      const encoded = (await response.text()).replace(/\s/g, "");
+      player.src = "data:video/mp4;base64," + encoded;
+      player.dataset.compatible = "ready";
+    } catch {
+      delete player.dataset.compatible;
+    }
+  }
+  player.addEventListener("error", loadCompatible);
+  if (player.error || !player.canPlayType('video/mp4; codecs="hvc1"')) loadCompatible();
 }
 
 if (management && gallery) {
   management.addEventListener("toggle", showTitleEditors);
   showTitleEditors();
-  for (const card of gallery.children) refreshTitle(card);
+  for (const card of gallery.children) {
+    enablePlayback(card);
+    refreshTitle(card);
+  }
 
   keepUpdated(async () => {
     try {
@@ -50,6 +74,7 @@ if (management && gallery) {
           }
         } else {
           card = document.importNode(fresh, true);
+          enablePlayback(card);
         }
         if (gallery.children[index] !== card) gallery.insertBefore(card, gallery.children[index] || null);
         refreshTitle(card);
