@@ -14,10 +14,18 @@ function paperCard(entry) {
   const url = new URL(entry.url);
   if (url.protocol !== "https:") throw new Error("Invalid source URL.");
   const article = element("article", undefined, "paper");
-  article.dataset.published = entry.published_at;
   article.dataset.briefZh = entry.brief_zh || "";
   const metadata = element("p", undefined, "paper-info");
-  metadata.append(timeLabel(entry.published_at), element("span", kinds[entry.kind] + " · " + entry.source));
+  if (entry.selected_on) {
+    article.dataset.classic = "";
+    const selected = element("time", "Selected " + entry.selected_on);
+    selected.dateTime = entry.selected_on;
+    const rank = entry.topic === "merging" ? " · CCF A" : "";
+    metadata.append(selected, element("span", "Classic reading · " + entry.source + rank));
+  } else {
+    article.dataset.published = entry.published_at;
+    metadata.append(timeLabel(entry.published_at), element("span", kinds[entry.kind] + " · " + entry.source));
+  }
   const heading = element("h3");
   const title = element("a", entry.title);
   title.href = url.href;
@@ -43,6 +51,8 @@ keepUpdated(async () => {
         for (const existing of lane.querySelectorAll(".paper")) existing.remove();
         const empty = lane.querySelector(".empty-lane");
         for (const card of cards) if (card.topic === lane.dataset.topic) empty.before(card.node);
+        const classic = board.classics?.[lane.dataset.topic];
+        if (classic) empty.after(paperCard(classic));
       }
       document.querySelector(".checked time").replaceWith(reviewed);
       window.refreshWindow();
