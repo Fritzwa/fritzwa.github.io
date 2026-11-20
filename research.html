@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#121212">
-  <meta name="description" content="Ziyi Wang's reading board on recursive self-improvement and model merging.">
+  <meta name="description" content="Ziyi Wang’s reading board on recursive self-improvement, model merging and weight-space programming.">
   <title>Research Interests · Ziyi Wang</title>
   <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="./research.css">
@@ -19,21 +19,27 @@
     <main class="research-board">
       <header class="board-heading">
         <h1 class="article-title">Research Interests</h1>
-        <p>Papers and original research posts from the past 24 hours.</p>
-        <p class="checked">Last reviewed <time datetime="2026-11-20T07:33:38+00:00">20 Nov 2026, 15:33 UTC+8</time></p>
+        <p>Research from the past 24 hours, with a daily model-merging classic and further reading on weight editing.</p>
+        <p class="checked">Last reviewed <time datetime="2026-11-20T14:35:55+00:00">20 Nov 2026, 22:35 UTC+8</time></p>
       </header>
-      <p id="feed-status" hidden role="status">Live updates are unavailable. <a class="source" href="https://vcard-folio-6p4n.glisteningrice8.chatgpt.site/research">Open the research board</a></p>
       <section class="zh-brief" lang="zh-CN" aria-labelledby="brief-title">
         <h2 id="brief-title">中文速读</h2>
-        <p><strong>递归自我改进（RSI）</strong> <span data-brief-topic="rsi">当评测分数不再上涨时，光看总分很难判断模型下一步该练什么。作者提出的 AdaObs 保留原有评测，同时细分错误、提高题目难度，并加入相关任务，用这些反馈指导下一轮训练。在长文本阅读和指令遵循的 8 项基准上，作者报告平均分从 66.4 升至 73.7。在训练数据量相同的条件下，这一方法超过了只用原评测总分作反馈的基线。团队还用两种智能体后端做了独立测试，两者在 PostTrainBench 的 7 项任务上都取得了更高的平均分。</span></p>
-<p><strong>模型合并</strong> <span data-brief-topic="merging">过去 24 小时暂无已核实的新进展。</span></p>
+        <p><strong>递归自我改进（RSI）</strong> <span data-brief-topic="rsi">过去 24 小时暂无已核实的新进展。</span></p>
+<p><strong>模型合并</strong> <span data-brief-topic="merging">过去 24 小时暂无已核实的新进展。 经典选读：多个微调模型合并时，如果一个模型把权重调高、另一个把它调低，两边的改动就可能相互抵消。TIES 先把微调幅度很小的改动归零，再给每个参数选定一个方向，只合并方向一致的改动。作者报告，在他们测试的多种模型规模、任务和模态上，这样做超过了此前的合并方法。</span></p>
+<p><strong>权重空间编程</strong> <span data-brief-topic="editing">《为大语言模型的权重编程训练视觉模型》的作者让五个大语言模型直接修改卷积网络和视觉 Transformer 的权重，在四个数据集上完成改标签和纠错任务。作者用留出的图像评估了超过 2,600 次编辑，检查编辑是否成功、有无副作用，以及准确率下降了多少。对于常规训练后难以编辑的网络，作者发现，专门为编辑而训练能大幅提高编辑成功率。Edit-Ready Training（ERT）在训练时演练用闭式公式直接修改权重；对 GPT-6 Astra 和 Claude Opus 5.5 而言，ERT 的平均得分均高于常规训练、标签平滑和基于梯度的可编辑训练。</span></p>
       </section>
-      <div class="lanes"><section class="lane" data-topic="rsi" aria-labelledby="rsi-title"><header class="lane-heading"><h2 id="rsi-title">Recursive Self-Improvement</h2><p>How learning systems change the process that produces their next improvement.</p></header><article class="paper" data-published="2026-11-19T13:52:46+00:00" data-brief-zh="当评测分数不再上涨时，光看总分很难判断模型下一步该练什么。作者提出的 AdaObs 保留原有评测，同时细分错误、提高题目难度，并加入相关任务，用这些反馈指导下一轮训练。在长文本阅读和指令遵循的 8 项基准上，作者报告平均分从 66.4 升至 73.7。在训练数据量相同的条件下，这一方法超过了只用原评测总分作反馈的基线。团队还用两种智能体后端做了独立测试，两者在 PostTrainBench 的 7 项任务上都取得了更高的平均分。">
-      <p class="paper-info"><time datetime="2026-11-19T13:52:46+00:00">19 Nov 2026, 21:52 UTC+8</time><span>Preprint · arXiv</span></p>
-      <h3><a href="https://arxiv.org/abs/2611.26132v1">Sage-Evolve-Preview:Adaptive Observation for Post-Training Self-Improvement</a></h3><p class="byline">Yinhao Tang et al.</p>
-      <h4>Abstract in brief</h4><p class="abstract">The authors introduce AdaObs, which keeps a benchmark fixed during iterative post-training but changes the feedback used to guide training when progress stalls. Its controller refines diagnostics, increases task difficulty, and adds related tasks. Across eight independently optimized benchmarks in long-context reading comprehension and instruction following, the authors report a mean score increase from 66.4 to 73.7, outperforming anchor-only feedback under a matched data budget. They also report a higher seven-task average on the independent PostTrainBench evaluation with two agent backends.</p><a class="source" href="https://arxiv.org/abs/2611.26132v1">Read the original abstract</a>
-    </article><p class="empty-lane" hidden>No verified updates in the past 24 hours.</p></section>
-<section class="lane" data-topic="merging" aria-labelledby="merging-title"><header class="lane-heading"><h2 id="merging-title">Model Merging</h2><p>How combining model weights preserves, transfers, or interferes with learned capabilities.</p></header><p class="empty-lane">No verified updates in the past 24 hours.</p></section></div>
+      <p id="feed-status" hidden role="status">Live updates are unavailable. <a class="source" href="https://vcard-folio-6p4n.glisteningrice8.chatgpt.site/research">Open the research board</a></p>
+      <div class="lanes"><section class="lane" data-topic="rsi" aria-labelledby="rsi-title"><header class="lane-heading"><h2 id="rsi-title">Recursive Self-Improvement</h2><p>How learning systems change the process that produces their next improvement.</p></header><p class="empty-lane">No verified updates in the past 24 hours.</p></section>
+<section class="lane" data-topic="merging" aria-labelledby="merging-title"><header class="lane-heading"><h2 id="merging-title">Model Merging</h2><p>How combining model weights preserves, transfers, or interferes with learned capabilities.</p></header><p class="empty-lane">No verified updates in the past 24 hours.</p><article class="paper" data-classic data-brief-zh="多个微调模型合并时，如果一个模型把权重调高、另一个把它调低，两边的改动就可能相互抵消。TIES 先把微调幅度很小的改动归零，再给每个参数选定一个方向，只合并方向一致的改动。作者报告，在他们测试的多种模型规模、任务和模态上，这样做超过了此前的合并方法。">
+      <p class="paper-info"><time datetime="2026-11-20">Selected 2026-11-20</time><span>Classic reading · NeurIPS 2023 · CCF A</span></p>
+      <h3><a href="https://proceedings.neurips.cc/paper_files/paper/2023/hash/1644c9af28ab7916874f6fd6228a9bcf-Abstract-Conference.html">TIES-Merging: Resolving Interference When Merging Models</a></h3><p class="byline">Prateek Yadav et al.</p>
+      <h4>Abstract in brief</h4><p class="abstract">The authors study two reasons that fine-tuned models can interfere during merging: parameter changes that carry little useful information and changes that point in opposite directions. TIES removes small changes, selects a sign for each parameter and merges updates with that sign. The authors report improvements over earlier methods across the model sizes, tasks and modalities they tested.</p><a class="source" href="https://proceedings.neurips.cc/paper_files/paper/2023/hash/1644c9af28ab7916874f6fd6228a9bcf-Abstract-Conference.html">Read the original abstract</a>
+    </article></section>
+<section class="lane" data-topic="editing" aria-labelledby="editing-title"><header class="lane-heading"><h2 id="editing-title">Weight-Space Programming</h2><p>How language models inspect and rewrite network weights, and how researchers test those edits.</p><a class="source" href="https://rikiyat.github.io/blog/weight-space-programming/">MIT CSAIL’s original study</a></header><article class="paper" data-published="2026-11-19T16:56:27+00:00" data-brief-zh="《为大语言模型的权重编程训练视觉模型》的作者让五个大语言模型直接修改卷积网络和视觉 Transformer 的权重，在四个数据集上完成改标签和纠错任务。作者用留出的图像评估了超过 2,600 次编辑，检查编辑是否成功、有无副作用，以及准确率下降了多少。对于常规训练后难以编辑的网络，作者发现，专门为编辑而训练能大幅提高编辑成功率。Edit-Ready Training（ERT）在训练时演练用闭式公式直接修改权重；对 GPT-6 Astra 和 Claude Opus 5.5 而言，ERT 的平均得分均高于常规训练、标签平滑和基于梯度的可编辑训练。">
+      <p class="paper-info"><time datetime="2026-11-19T16:56:27+00:00">20 Nov 2026, 00:56 UTC+8</time><span>Preprint · arXiv</span></p>
+      <h3><a href="https://arxiv.org/abs/2611.26408v1">Training Vision Models for LLM-Driven Weight-Space Programming</a></h3><p class="byline">Timo Ropinski, Sebastian Kranz</p>
+      <h4>Abstract in brief</h4><p class="abstract">The authors tested five LLMs on relabeling and error correction in convolutional networks and vision transformers across four datasets. They scored over 2,600 weight edits on held-out images for success, side effects and accuracy loss. Training networks for editing substantially improved edit success where conventionally trained networks were hard to edit. Edit-Ready Training (ERT), which rehearses direct, closed-form weight edits, achieved the highest mean score for GPT-6 Astra and Claude Opus 5.5 compared with standard training, label smoothing and gradient-based editable training.</p><a class="source" href="https://arxiv.org/abs/2611.26408v1">Read the original abstract</a>
+    </article><p class="empty-lane" hidden>No verified updates in the past 24 hours.</p></section></div>
     </main>
   </div>
   
