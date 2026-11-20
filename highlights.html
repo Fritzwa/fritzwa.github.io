@@ -1,3 +1,6 @@
+---
+layout: null
+---
 <!doctype html>
 <html lang="en">
 <head>
@@ -18,13 +21,50 @@
     </nav>
     <main class="research-board">
       <header class="board-heading"><h1 class="article-title">Goal Highlights</h1></header>
-      <p id="list-status" role="status">Loading highlights…</p>
-      <p id="gallery-fallback" hidden><a class="source" href="https://vcard-folio-6p4n.glisteningrice8.chatgpt.site/highlights">Open the live gallery</a></p>
-      <div id="empty" hidden><div class="pitch" aria-hidden="true"><i></i><b></b></div><p>No highlights yet.</p></div>
-      <div id="clips"></div>
-      <footer class="gallery-footer"><a id="manage-link" href="https://vcard-folio-6p4n.glisteningrice8.chatgpt.site/manage-highlights">Manage highlights</a></footer>
+      {% assign formats = '.mp4,.m4v,.webm,.mov' | split: ',' %}
+      {% assign files = site.static_files | sort: 'path' %}
+      {% assign count = 0 %}
+      {% assign repo = 'https://github.com/Fritzwa/fritzwa.github.io' %}
+      <div id="clips">
+        {% for file in files %}
+          {% assign parts = file.path | split: '/' %}
+          {% assign ext = file.extname | downcase %}
+          {% if parts[1] == 'goal-videos' and parts.size == 3 and formats contains ext %}
+            {% assign count = count | plus: 1 %}
+            {% assign name_url = file.name | url_encode | replace: '+', '%20' %}
+            {% assign poster_path = file.path | append: '.jpg' %}
+            {% assign poster = files | where: 'path', poster_path | first %}
+            {% assign title_path = file.path | append: '.txt' %}
+            {% assign label = files | where: 'path', title_path | first %}
+            {% assign title = file.basename | replace: '_', ' ' %}
+            <article class="clip"{% if label %} data-title-file="./goal-videos/{{ name_url }}.txt"{% endif %}>
+              <video aria-label="{{ title | escape }}" controls playsinline preload="metadata" {% if poster %}poster="./goal-videos/{{ name_url }}.jpg"{% endif %} src="./goal-videos/{{ name_url }}"></video>
+              <footer>
+                <h2>{{ title | escape }}</h2>
+                <a class="fallback" href="./goal-videos/{{ name_url }}">Open video file</a>
+                {% if label %}
+                  {% assign edit = repo | append: '/edit/main/goal-videos/' | append: name_url | append: '.txt' %}
+                {% else %}
+                  {% assign default_text = title | url_encode %}
+                  {% assign edit = repo | append: '/new/main/goal-videos?filename=' | append: name_url | append: '.txt&amp;value=' | append: default_text %}
+                {% endif %}
+                <a class="owner-title" hidden href="{{ edit }}">Edit title</a>
+              </footer>
+            </article>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% if count == 0 %}<div id="empty"><div class="pitch" aria-hidden="true"><i></i><b></b></div><p>No highlights yet.</p></div>{% endif %}
+      <footer class="gallery-footer">
+        <details id="management">
+          <summary>Manage highlights</summary>
+          <p>Sign in as the repository owner to upload a video or edit its title. Commit your changes to publish them.</p>
+          <a href="https://github.com/Fritzwa/fritzwa.github.io/upload/main/goal-videos">Upload videos on GitHub</a>
+          <span>Drag and drop · Up to 25 MiB per file</span>
+        </details>
+      </footer>
     </main>
   </div>
-  <script type="module" src="./gallery.js"></script>
+  <script type="module" src="./gallery.js?v=pages-video"></script>
 </body>
 </html>
