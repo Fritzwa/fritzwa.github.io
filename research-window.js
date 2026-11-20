@@ -6,16 +6,24 @@ function refreshWindow() {
   let nextExpiry = Infinity;
   for (const lane of document.querySelectorAll(".lane")) {
     let count = 0;
+    const notes = [];
     for (const paper of lane.querySelectorAll(".paper")) {
       const published = Date.parse(paper.dataset.published);
       const expires = published + windowMs;
       paper.hidden = !(published <= now && now < expires);
       if (!paper.hidden) {
         count++;
+        if (paper.dataset.briefZh) notes.push(paper.dataset.briefZh);
         nextExpiry = Math.min(nextExpiry, expires);
       }
     }
     lane.querySelector(".empty-lane").hidden = count > 0;
+    const digest = document.querySelector('[data-brief-topic="' + lane.dataset.topic + '"]');
+    if (digest) {
+      const fallback = count ? "中文速读待补充，可先阅读下方英文摘要。" : "过去 24 小时暂无已核实的新进展。";
+      const text = notes.join(" ") || fallback;
+      if (digest.textContent !== text) digest.textContent = text;
+    }
   }
   clearTimeout(expiryTimer);
   if (Number.isFinite(nextExpiry)) expiryTimer = setTimeout(refreshWindow, Math.max(1, nextExpiry - now));
